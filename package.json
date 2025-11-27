@@ -1,0 +1,17 @@
+{
+  "name": "movie-search-api",
+  "version": "1.0.0",
+  "description": "A simple movie search REST API with CRUD operations",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["movie", "api", "express", "rest", "search"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

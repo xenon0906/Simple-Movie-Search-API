@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search API</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Movie Search API</h1>
+            <p>Search, filter, and manage your movie collection</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Panel - Controls -->
+            <div class="control-panel">
+                <!-- Search Section -->
+                <section class="section">
+                    <h2>Search Movies</h2>
+                    <div class="input-group">
+                        <input type="text" id="searchInput" placeholder="Search by title (e.g., inc, stel)">
+                        <button onclick="searchMovies()" class="btn btn-primary">Search</button>
+                    </div>
+                </section>
+
+                <!-- Filter Section -->
+                <section class="section">
+                    <h2>Filter Movies</h2>
+                    <div class="filter-grid">
+                        <div class="filter-item">
+                            <label>Genre</label>
+                            <select id="filterGenre">
+                                <option value="">All Genres</option>
+                                <option value="Sci-Fi">Sci-Fi</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Action">Action</option>
+                                <option value="Crime">Crime</option>
+                                <option value="Comedy">Comedy</option>
+                                <option value="Horror">Horror</option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <label>Min Rating</label>
+                            <input type="number" id="filterMinRating" min="0" max="10" step="0.1" placeholder="0">
+                        </div>
+                        <div class="filter-item">
+                            <label>Max Rating</label>
+                            <input type="number" id="filterMaxRating" min="0" max="10" step="0.1" placeholder="10">
+                        </div>
+                        <div class="filter-item">
+                            <label>Year</label>
+                            <input type="number" id="filterYear" min="1900" max="2030" placeholder="Any">
+                        </div>
+                        <div class="filter-item">
+                            <label>Director</label>
+                            <input type="text" id="filterDirector" placeholder="Director name">
+                        </div>
+                    </div>
+                    <button onclick="filterMovies()" class="btn btn-primary">Apply Filters</button>
+                    <button onclick="clearFilters()" class="btn btn-secondary">Clear</button>
+                </section>
+
+                <!-- Add Movie Section -->
+                <section class="section">
+                    <h2>Add New Movie</h2>
+                    <div class="form-grid">
+                        <input type="text" id="newTitle" placeholder="Title *" required>
+                        <input type="number" id="newRating" min="0" max="10" step="0.1" placeholder="Rating (0-10) *" required>
+                        <input type="number" id="newYear" min="1900" max="2030" placeholder="Year">
+                        <input type="text" id="newGenre" placeholder="Genre">
+                        <input type="text" id="newDirector" placeholder="Director">
+                    </div>
+                    <button onclick="addMovie()" class="btn btn-success">Add Movie</button>
+                </section>
+
+                <!-- Quick Actions -->
+                <section class="section">
+                    <h2>Quick Actions</h2>
+                    <div class="quick-actions">
+                        <button onclick="getAllMovies()" class="btn btn-primary">Get All Movies</button>
+                        <button onclick="getStats()" class="btn btn-info">Get Statistics</button>
+                        <button onclick="getTopRated()" class="btn btn-warning">Top Rated</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Panel - Results -->
+            <div class="results-panel">
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('cards')">Cards View</button>
+                    <button class="tab" onclick="switchTab('json')">JSON Response</button>
+                </div>
+
+                <!-- Cards View -->
+                <div id="cardsView" class="tab-content active">
+                    <div class="results-header">
+                        <span id="resultsCount">0 movies found</span>
+                        <select id="sortBy" onchange="sortResults()">
+                            <option value="">Sort by...</option>
+                            <option value="title-asc">Title (A-Z)</option>
+                            <option value="title-desc">Title (Z-A)</option>
+                            <option value="rating-desc">Rating (High to Low)</option>
+                            <option value="rating-asc">Rating (Low to High)</option>
+                            <option value="year-desc">Year (Newest)</option>
+                            <option value="year-asc">Year (Oldest)</option>
+                        </select>
+                    </div>
+                    <div id="moviesGrid" class="movies-grid">
+                        <!-- Movie cards will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- JSON View -->
+                <div id="jsonView" class="tab-content">
+                    <div class="json-header">
+                        <span>API Response</span>
+                        <button onclick="copyJson()" class="btn btn-small">Copy JSON</button>
+                    </div>
+                    <pre id="jsonOutput" class="json-output">// Make a request to see JSON response</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Edit Movie</h2>
+                <input type="hidden" id="editId">
+                <div class="form-grid">
+                    <input type="text" id="editTitle" placeholder="Title">
+                    <input type="number" id="editRating" min="0" max="10" step="0.1" placeholder="Rating">
+                    <input type="number" id="editYear" min="1900" max="2030" placeholder="Year">
+                    <input type="text" id="editGenre" placeholder="Genre">
+                    <input type="text" id="editDirector" placeholder="Director">
+                </div>
+                <div class="modal-actions">
+                    <button onclick="updateMovie()" class="btn btn-success">Update</button>
+                    <button onclick="closeModal()" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
